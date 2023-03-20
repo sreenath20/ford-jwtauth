@@ -4,6 +4,8 @@ public class LoginDto {
 
     String email;
     String password;
+    String role;
+
 
     public LoginDto() {
     }
@@ -11,6 +13,20 @@ public class LoginDto {
     public LoginDto(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public LoginDto(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getEmail() {

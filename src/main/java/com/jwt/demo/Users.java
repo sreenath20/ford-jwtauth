@@ -18,6 +18,9 @@ public class Users {
     String email;
     @JsonIgnore
     String password;
+    @Transient
+    String jwt;
+    String role;
 
     public Users() {
 
@@ -28,6 +31,39 @@ public class Users {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public Users(Integer id, String name, String email, String password, String jwt, String role) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.jwt = jwt;
+        this.role = role;
+    }
+
+    public Users(Integer id, String name, String email, String password, String jwt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.jwt = jwt;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 
     public Integer getId() {

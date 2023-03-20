@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.Date;
 
 @RestController
@@ -16,6 +18,9 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @PostMapping("user")
     public String registerNewUser(@RequestBody Users user){
         // check for email already exists throw exception
@@ -39,6 +44,7 @@ public class AuthController {
                 .signWith(SignatureAlgorithm.HS256,"secretKey").compact();
 
         Cookie cookie = new Cookie("jwt",jwt);
+        user.setJwt(jwt);
         response.addCookie(cookie);
         //return jwt;
                 return user;
@@ -73,6 +79,16 @@ public class AuthController {
             throw  new Exception("Unauthenticated !");
         }
 
+        return this.userRepository.findByEmail(email);
+
+    }
+
+    // API with bearer token of JWT
+
+    @GetMapping("userinfo")
+    public Users getUserInfo(@RequestHeader("Authorization") String bearerToken ) throws Exception {
+        String jwt = bearerToken.substring(7);
+        String email = jwtUtil.validateJwtAndGetUserEmail(jwt);
         return this.userRepository.findByEmail(email);
 
     }
